@@ -1,11 +1,25 @@
 import "./App.css";
-import React,{useEffect} from "react";
+import React,{useEffect, useState} from "react";
 import { ToastContainer, toast } from "react-toastify";
 
 function App() {
+  const [payments, setPayments] = useState([]);
+
   useEffect(() => {
+    fetch("/payments.json") 
+      .then((response) => response.json())
+      .then((data) => setPayments(data))
+      .catch((error) => console.error("Error loading payments:", error));
+  }, []);
+
+  useEffect(() => {
+    if (payments.length === 0) return;
+
     const interval = setInterval(() => {
-      toast.success("Ram paid ₹5000 ", {
+      const randomPayment =
+        payments[Math.floor(Math.random() * payments.length)];
+
+      toast.success(`${randomPayment.name} paid ₹${randomPayment.amount}`, {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -15,11 +29,11 @@ function App() {
         progress: undefined,
         theme: "light",
       });
-    }, 15000); 
+    }, 15000);
 
-    return () => clearInterval(interval); 
-  }, []);
-  
+    return () => clearInterval(interval);
+  }, [payments]);
+
   return (
     <div className="min-h-screen flex flex-col overflow-y-auto">
       <ToastContainer style={{ width: "300px" }}
@@ -95,13 +109,13 @@ function App() {
                   </p>
                   <div className="flex justify-center mt-4">
                     <img
-                      src="https://th.bing.com/th/id/OIP.iVT8onjjn8mo3L9LM_SUgQHaHa?rs=1&pid=ImgDetMain"
+                      src="QR.jpeg"
                       alt="UPI QR Code"
                       className="w-40 h-40 border rounded-lg shadow-md"
                     />
                   </div>
                   <h5 className="mt-4 text-lg font-medium text-gray-900">
-                    UPI ID: <span className="font-bold">9717573000@ptyes</span>
+                    UPI ID: <span className="font-bold">8920805704@ptaxis</span>
                   </h5>
                 </div>
               </div>
@@ -113,19 +127,19 @@ function App() {
                     Bank Transfer Details
                   </h3>
                   <p className="mt-3  text-xl text-gray-700">
-                    <strong>A/c Holder:</strong> Poonam Tyagi
+                    <strong>A/c Holder:</strong> Aradhya
                   </p>
                   <p className="text-gray-700 text-xl">
-                    <strong>A/c No:</strong> 33350724032
+                    <strong>A/c No:</strong> 334901000008423
                   </p>
                   <p className="text-gray-700 text-xl">
-                    <strong>IFSC:</strong> SBIN0015467
+                    <strong>IFSC:</strong> IOBA0003349
                   </p>
                   <p className="text-gray-700 text-xl">
-                    <strong>Bank:</strong> State Bank of India
+                    <strong>Bank:</strong> Indian Overseas Bank
                   </p>
                   <p className="text-gray-700 text-xl">
-                    <strong>Branch:</strong> Crossing Republic, Ghaziabad
+                    <strong>Branch:</strong> Sainik colony, Faridabad
                   </p>
                 </div>
               </div>
